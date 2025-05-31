@@ -27,10 +27,16 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
+      - name: Rename and prepare artifacts
+        run: |
+          mkdir deploy-folder
+          cp '${{ github.workspace }}/target/*.jar' deploy-folder/app1.jar
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
+          run: echo '${{ github.workspace }}/target/*.jar'
           path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
